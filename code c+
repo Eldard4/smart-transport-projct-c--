@@ -1,0 +1,28 @@
+#include <iostream>
+include<crow.h>//include crow for creting a REST API
+include <vector>
+class Bus {
+	public :
+		std::string busName;
+		std::vector<int>arrival times;//stores arrival time 
+		Bus(std::string name,std::vector<int>times):busName(name),arrivalTimes(times){
+		}
+		//function to predict next arrival time 
+		int prictNextArrival(){
+			//simple prediction logic (could use more advanced algorithm)
+			return arrivalTimes.back();
+		}
+			
+		
+};
+     int main (){
+     	crow::App app;
+     	Bus bus1("101,{10,20,30,40}");//Example bus with arrival times
+     	CROW_ROUTE(app,"predict")([](){
+     		return crow::response("Next Arrival Time :"
+			 +std::to_string(bus1.predictNextArrival())
+			 )
+		 }
+		 );
+		 app.port(18080).multithreaded().run();
+	 }
